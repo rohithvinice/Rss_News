@@ -1,6 +1,6 @@
 # News RSS Feed and Gemini Integration
 
-This project integrates RSS feed reading with Gemini AI for enhanced content analysis and chatbot functionality using Streamlit.
+This project integrates RSS feed reading with [Gemini AI](https://www.gemini.com/) for enhanced content analysis and chatbot functionality using [Streamlit](https://streamlit.io/).
 
 ## Features
 
@@ -62,6 +62,7 @@ streamlit run NewsRss.py
 - `newspaper3k`
 - `google-generativeai`
 
-## License
+## Issues
 
-This project is licensed under the MIT License.
+For any questions or issues, please reach out to me at [GitHub Issues](https://github.com/rohithvinice/news/issues).
+
