@@ -6,102 +6,21 @@ import newspaper
 import google.generativeai as genai
 
 # --- Gemini Setup (Requires API Key) ---
-# Ensure you have a Google Cloud project and the Gemini API enabled
-# Replace 'YOUR_GEMINI_API_KEY' with your actual API key
-GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]  # Best practice: store API keys in streamlit secrets
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=GEMINI_API_KEY)
 
-# **CHANGE THE MODEL NAME HERE:**
+# Change the model name here if needed
 MODEL_NAME = 'models/gemini-1.5-flash-latest'
 
 try:
-    model = genai.GenerativeModel(MODEL_NAME)  # Use the correct model name
+    model = genai.GenerativeModel(MODEL_NAME)
 except Exception as e:
     st.error(f"Error initializing Gemini model: {e}")
     model = None
 
 # --- CSS Styling ---
-st.markdown(
-    """
-    <style>
-    .rss-title {
-        font-size: 2em;
-        font-weight: bold;
-        color: rgb(236, 223, 204);
-        text-align: left;
-    }
-    .rss-description {
-        font-size: 1.5em;
-        color: rgb(167, 130, 149);
-    }
-    .rss-link {
-        font-size: 1em;
-        color: rgb(24, 255, 109) !important;
-        text-decoration: none;
-    }
-    .center {
-        display: flex;
-        justify-content: right;
-        align-items: center;
-    }
-    .feed-container {
-        width: 90%;
-    }
-
-    .feed-divider {
-        border-top: 2px solid #808080;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-   .stTextInput > label {
-        visibility: hidden;
-        position: absolute;
-    }
-    .input-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-
-    .input-container > div:first-child {
-        width: 70%;
-        margin-right: 10px;
-    }
-
-    .input-container > div:last-child {
-        width: 30%;
-    }
-
-    .stButton > button {
-        height: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .chat-message {
-        padding: 8px 12px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        font-size: 16px;
-    }
-    .user-message {
-        background-color: #DCF8C6; /* Light green for user messages */
-        align-self: flex-end;
-        text-align: right;
-    }
-    .bot-message {
-        background-color: #ECE5DD; /* Light gray for bot messages */
-        align-self: flex-start;
-        text-align: left;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+with open("style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # --- Session State Initialization ---
 if 'rss_urls' not in st.session_state:
@@ -233,7 +152,7 @@ def perform_search():
     st.session_state['search_term'] = search_term
 
 def get_all_feeds_callback():
-     st.session_state['get_all_feeds'] = True
+    st.session_state['get_all_feeds'] = True
 
 # --- Article Display Function ---
 def display_article(article_url: str):
@@ -258,21 +177,20 @@ def display_article(article_url: str):
 
         if st.button("Back to Feed"):
             st.session_state['selected_article'] = None
-            st.session_state['get_all_feeds'] = False  # add this line to reset get all feed button
+            st.session_state['get_all_feeds'] = False  # Reset get all feed button
             st.rerun()  # Force immediate rerun
     else:
         st.error("Failed to fetch article data.")
 
 # --- Gemini Integration & Chatbot Functionality ---
-
 def generate_gemini_response(prompt):
     """Generates a response from the Gemini Pro model."""
-    if model is None: # Check if the model was initialized correctly
-        st.error("Gemini model could not be initialized.  Check your API key and model name.")
+    if model is None:  # Check if the model was initialized correctly
+        st.error("Gemini model could not be initialized. Check your API key and model name.")
         return "I'm sorry, the Gemini model is not available."
     try:
-        #response = model.generate_content(prompt)
-        #return response.text
+        # response = model.generate_content(prompt)
+        # return response.text
         return "Bot Response"  # Simplified response for debugging
     except Exception as e:
         st.error(f"Error generating Gemini response: {e}")
@@ -286,7 +204,6 @@ def display_chat_history():
             st.markdown(f'<div class="chat-message user-message">{message}</div>', unsafe_allow_html=True)
         else:  # Bot message
             st.markdown(f'<div class="chat-message bot-message">{message}</div>', unsafe_allow_html=True)
-
 
 def chatbot_interface():
     """Implements the chatbot interface."""
@@ -326,7 +243,6 @@ def extract_keywords_request(article_text):
     """
     prompt = f"Extract the 5 most important keywords from the following article:\n\n{article_text}\n\nKeywords:"
     return generate_gemini_response(prompt)
-
 
 # --- Main Content - Title and Description ---
 st.title("RSS Feed and Gemini Integration")
@@ -379,10 +295,6 @@ with st.sidebar:
         st.session_state['selected_article'] = None
 
 # --- Main Content Logic ---
-
-# **Crucially, process all state changes *before* deciding what to display**
-
-# **Now determine what to display based on the updated state**
 if st.session_state.get('selected_article'):
     display_article(st.session_state['selected_article'])
 

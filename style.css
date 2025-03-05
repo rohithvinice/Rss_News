@@ -1,0 +1,67 @@
+.rss-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: rgb(236, 223, 204);
+    text-align: left;
+}
+.rss-description {
+    font-size: 1.5em;
+    color: rgb(167, 130, 149);
+}
+.rss-link {
+    font-size: 1em;
+    color: rgb(24, 255, 109) !important;
+    text-decoration: none;
+}
+.center {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.feed-container {
+    width: 90%;
+}
+.feed-divider {
+    border-top: 2px solid #808080;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.stTextInput > label {
+    visibility: hidden;
+    position: absolute;
+}
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.input-container > div:first-child {
+    width: 70%;
+    margin-right: 10px;
+}
+.input-container > div:last-child {
+    width: 30%;
+}
+.stButton > button {
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.chat-message {
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+.user-message {
+    background-color: #DCF8C6; /* Light green for user messages */
+    align-self: flex-end;
+    text-align: right;
+}
+.bot-message {
+    background-color: #ECE5DD; /* Light gray for bot messages */
+    align-self: flex-start;
+    text-align: left;
+}
