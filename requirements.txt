@@ -1,0 +1,6 @@
+streamlit
+requests
+xmltodict
+beautifulsoup4
+newspaper3k
+google-generativeai
